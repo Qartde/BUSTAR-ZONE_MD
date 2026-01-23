@@ -79,3 +79,23 @@ Or open an issue on the [GitHub Issues page](https://github.com/lbrahimu12/BUSTA
 _______________
 
 
+#### 🪡ᴏᴜʀ ᴄʜᴀɴɴᴇʟ sᴜᴘᴘᴏʀᴛᴇʀ ᴍᴀᴋᴇ sᴜʀᴇ ᴜ ғᴏʟʟᴏᴡ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ ғᴏʀ ᴜᴘᴅᴀᴛᴇs ✅
+
+<div align="center">
+  <a href="https://whatsapp.com/channel/0029Vb7HhcI2ZjCj6clT5D1x">
+    <img src="https://img.shields.io/badge/Join-WhatsApp%20Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white&labelColor=000000"/>
+  </a>
+</div>
+
+*ᴏʀ*
+
+<div align="center">
+  <a href="https://whatsapp.com/channel/0029VatokI45EjxufALmY32X">
+    <img src="https://img.shields.io/badge/Join-WhatsApp%20Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white&labelColor=000000"/>
+  </a>
+</div>
+
+_____________
+
+
+
