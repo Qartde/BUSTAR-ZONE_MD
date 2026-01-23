@@ -29,13 +29,19 @@ ________________
 _________
 
 
-#### ʙᴜsᴛᴀʀᴢᴏɴᴇ ᴍᴅ
+#### ʙᴜsᴛᴀʀᴢᴏɴᴇ ᴍᴅ 👽
 
 BUSTARZONE MD is a powerful WhatsApp bot with multiple features to automate tasks, moderate groups, and provide entertainment. Deploy it effortlessly to your favorite cloud hosting platform.
 
 
 
 _______________
+
+
+
+#### ᴅᴇᴘʟᴏʏ ᴏɴ ᴏɴᴇ ᴄʟɪᴄᴋ 👇
+
+____________
 
 
 #### ᴄʀᴇᴀᴛᴇ ᴀᴄᴄᴏᴜɴᴛ ᴏɴ ʜᴇʀᴏᴋᴜ ɪғ ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ 🌀
