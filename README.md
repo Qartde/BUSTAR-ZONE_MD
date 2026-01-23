@@ -16,7 +16,12 @@
 
 ___________
 
-#### ғᴏʀᴋ ᴛʜɪs ʀᴇᴘᴏ 👇
+#### ғᴏʀᴋ ᴛʜɪs ʀᴇᴘᴏ  👇
 
 
 <a href='https://github.com/lbrahimu12/BUSTAR-ZONE_MD/fork' target="_blank"><img alt='ғᴏʀᴋ ᴛʜɪs ʀᴇᴘᴏ' src='https://img.shields.io/badge/Fork This Repo-blue?style=for-the-badge&logo=git&logoColor=grey'/></a>
+
+#### ɢᴇᴛ sᴇssɪᴏɴ ɪᴅ  👇
+
+
+<a href="https://rahmani-4.onrender.com/pair"><img title="GET-SESSION ID HERE" src="https://img.shields.io/badge/GET-SESSION ID HERE-h?color=blue&style=for-the-badge&logo=B" width="230" height="38.45"/></a></p>
