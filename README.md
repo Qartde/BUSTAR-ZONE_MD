@@ -16,6 +16,7 @@
 
 ___________
 
-### 🌀 **Generate Authentication**
+#### SETUP Fork 👇
 
-<a href="https://rahmani-4.onrender.com/pair" target="_blank"><img alt='PAIRING' src='https://img.shields.io/badge/GET%20CREDS.JSON-magenta?style=for-the-badge&logo=opencv&logoColor=white'/></a>
+
+<a href='https://github.com/lbrahimu12/BUSTAR-ZONE_MD/fork' target="_blank"><img alt='ғᴏʀᴋ ᴛʜɪs ʀᴇᴘᴏ' src='https://img.shields.io/badge/Fork This Repo-black?style=for-the-badge&logo=git&logoColor=grey'/></a>
