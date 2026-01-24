@@ -13,6 +13,10 @@ zokou({
   'categorie': 'Download'
 }, async (groupId, client, context) => {
   const { repondre, arg, ms } = context;
+  
+  // Your specific JID and Image URL
+    const channelJid = "120363353854480831@newsletter";
+    const imageUrl = "https://files.catbox.moe/aktbgo.jpg";
 
   try {
     // Check if app name is provided
@@ -56,24 +60,4 @@ zokou({
     console.error("Error during APK download process:", error);
     repondre("APK download failed. Please try again later.");
   }
-
-   // Custom Assets
-    contextInfo: {
-    forwardingScore: 999,
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-        newsletterJid: "120363353854480831@newsletter",
-        serverMessageId: 144,
-        newsletterName: "RAHMAN-AI UPDATES",
-    },
-    externalAdReply: {
-        title: "RAHMAN-AI",
-        body: "Join our official channel",
-        thumbnailUrl: "https://files.catbox.moe/aktbgo.jpg",
-        sourceUrl: "https://whatsapp.com/channel/0029VatokI45EjxufALmY32X", // Replace with your link
-        mediaType: 1,
-        renderLargerThumbnail: false,
-        showAdAttribution: true
-    }
-}
 });
