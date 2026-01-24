@@ -56,9 +56,9 @@ zokou({
     console.error("Error during APK download process:", error);
     repondre("APK download failed. Please try again later.");
   }
-});
-// Custom Assets
-contextInfo: {
+
+   // Custom Assets
+    contextInfo: {
     forwardingScore: 999,
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
@@ -76,3 +76,4 @@ contextInfo: {
         showAdAttribution: true
     }
 }
+});
