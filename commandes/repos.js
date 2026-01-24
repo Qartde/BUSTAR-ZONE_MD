@@ -41,16 +41,16 @@ const date = moment().format('DD/MM/YYYY');
 │❒⁠⁠⁠⁠│▸ *GROUP* 
 │❒⁠⁠⁠⁠│▸ *REPO*
 │❒⁠⁠⁠⁠╰──────────────
-│❒⁠⁠⁠⁠│▸ *CHANNEL* :  https://whatsapp.com/channel/0029Vb3eLRU3QxS5CZHI131x
+│❒⁠⁠⁠⁠│▸ *CHANNEL* :  https://whatsapp.com/channel/0029Vb7HhcI2ZjCj6clT5D1x
 │❒⁠⁠⁠⁠│▸ *GROUP* : https://chat.whatsapp.com/DTnrZzULVtP5r0E9rhoFOj
-│❒⁠⁠⁠⁠│▸ *REPO* : https://github.com/kibore-og/kb
+│❒⁠⁠⁠⁠│▸ *REPO* : https://github.com/lbrahimu12/BUSTAR-ZONE_MD
 │❒⁠⁠⁠⁠│▸ *CHANNEL2* https://whatsapp.com/channel/0029VatokI45EjxufALmY32X
 │❒⁠⁠⁠⁠╰──────────────
 ╰──────────────────\n
   `;
     
 let menuMsg = `
-     MADE EASY BY RAHMANI
+     MADE  BY BUSTARZONE 
 
 ❒────────────────────❒`;
 
