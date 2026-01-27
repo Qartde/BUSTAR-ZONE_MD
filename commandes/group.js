@@ -1,5 +1,9 @@
 
 
+
+
+
+
 const { zokou } = require("../framework/zokou")
 //const { getGroupe } = require("../bdd/groupe")
 const { Sticker, StickerTypes } = require('wa-sticker-formatter');
@@ -15,7 +19,7 @@ const { default: axios } = require('axios');
 
 
 
-zokou({ nomCom: "tagall", categorie: 'Group', reaction: "🐝" }, async (dest, zk, commandeOptions) => {
+zokou({ nomCom: "tagall", categorie: 'Group', reaction: "📣" }, async (dest, zk, commandeOptions) => {
 
   const { ms, repondre, arg, verifGroupe, nomGroupe, infosGroupe, nomAuteurMessage, verifAdmin, superUser } = commandeOptions
 
@@ -32,12 +36,12 @@ zokou({ nomCom: "tagall", categorie: 'Group', reaction: "🐝" }, async (dest, z
   var tag = ""; 
   tag +=`
   
-╭─────────────━┈⊷ 
-│ ʙᴜsᴛᴀᴢᴏɴᴇ ᴛᴀɢ ✅
-╰─────────────━┈⊷ \n
-│👥 *Group* : ${nomGroupe} 
-│👤 *Hey😀* : *${nomAuteurMessage}* 
-│📜 *Message* : *${mess}* 
+╭─────────────────━┈⊷ 
+│👋 BUSTAZONE MD 𝐓𝐀𝐆𝐒
+╰─────────────────━┈⊷ \n
+│⭕ *Group* : ${nomGroupe} 
+│⭕ *Hey😀* : *${nomAuteurMessage}* 
+│⭕ *Message* : *${mess}* 
 ╰─────────────━┈⊷\n
 \n
 
@@ -74,7 +78,7 @@ zokou({ nomCom: "link", categorie: 'Group', reaction: "🙋" }, async (dest, zk,
 
   let mess = `hello ${nomAuteurMessage} , here is the group link for ${nomGroupe} \n
 
-Group link :${lien} \n\n® ʙᴜsᴛᴀʀᴢᴏɴᴇ ᴍᴅ`
+Group link :${lien} \n\n©BUSTAZONE 𝐬𝐜𝐢𝐞𝐧𝐜𝐞`
   repondre(mess)
 
 
@@ -414,7 +418,7 @@ zokou({ nomCom: "info", categorie: 'Group' }, async (dest, zk, commandeOptions) 
        repondre(error)
     }
 
-  } else { repondre('Not entitled to this order') ;
+  } else { repondre('You are not entitled to this order') ;
   }
 
 });
@@ -608,4 +612,383 @@ zokou({nomCom:"hidetag",categorie:'Group',reaction:"🎤"},async(dest,zk,command
 
   //console.log(metadata.participants)
  let tag = [] ;
-  for (const participant of metadata.part
+  for (const participant of metadata.participants ) {
+
+      tag.push(participant.id) ;
+  }
+  //console.log(tag)
+
+    if(msgRepondu) {
+      console.log(msgRepondu)
+      let msg ;
+
+      if (msgRepondu.imageMessage) {
+
+        
+
+     let media  = await zk.downloadAndSaveMediaMessage(msgRepondu.imageMessage) ;
+     // console.log(msgRepondu) ;
+     msg = {
+
+       image : { url : media } ,
+       caption : msgRepondu.imageMessage.caption,
+       mentions :  tag
+       
+     }
+    
+
+      } else if (msgRepondu.videoMessage) {
+
+        let media  = await zk.downloadAndSaveMediaMessage(msgRepondu.videoMessage) ;
+
+        msg = {
+
+          video : { url : media } ,
+          caption : msgRepondu.videoMessage.caption,
+          mentions :  tag
+          
+        }
+
+      } else if (msgRepondu.audioMessage) {
+    
+        let media  = await zk.downloadAndSaveMediaMessage(msgRepondu.audioMessage) ;
+       
+        msg = {
+   
+          audio : { url : media } ,
+          mimetype:'audio/mp4',
+          mentions :  tag
+           }     
+        
+      } else if (msgRepondu.stickerMessage) {
+
+    
+        let media  = await zk.downloadAndSaveMediaMessage(msgRepondu.stickerMessage)
+
+        let stickerMess = new Sticker(media, {
+          pack: 'Redmi-XMD',
+          type: StickerTypes.CROPPED,
+          categories: ["🤩", "🎉"],
+          id: "12345",
+          quality: 70,
+          background: "transparent",
+        });
+        const stickerBuffer2 = await stickerMess.toBuffer();
+       
+        msg = { sticker: stickerBuffer2 , mentions : tag}
+
+
+      }  else {
+          msg = {
+             text : msgRepondu.conversation,
+             mentions : tag
+          }
+      }
+
+    zk.sendMessage(dest,msg)
+
+    } else {
+
+        if(!arg || !arg[0]) { repondre('Enter the text to announce or mention the message to announce');
+        ; return} ;
+
+      zk.sendMessage(
+         dest,
+         {
+          text : arg.join(' ') ,
+          mentions : tag
+         }     
+      )
+    }
+
+} else {
+  repondre('Command reserved for administrators.')
+}
+
+});
+
+
+zokou({ nomCom: "apk2", reaction: "✨", categorie: "Recherche" }, async (dest, zk, commandeOptions) => {
+  const { repondre, arg, ms } = commandeOptions;
+
+  try {
+    const appName = arg.join(' ');
+    if (!appName) {
+      return repondre("*Enter the name of the application to search for*");
+    }
+
+    const searchResults = await search(appName);
+
+    if (searchResults.length === 0) {
+      return repondre("*can't find application, please enter another name*");
+    }
+
+    const appData = await download(searchResults[0].id);
+    const fileSize = parseInt(appData.size);
+
+    if (fileSize > 300) {
+      return repondre("The file exceeds 300 MB, unable to download.");
+    }
+
+    const downloadLink = appData.dllink;
+    const captionText =
+      "『 *BUSTAZONE Application* 』\n\n*Name :* " + appData.name +
+      "\n*Id :* " + appData["package"] +
+      "\n*Last Update :* " + appData.lastup +
+      "\n*Size :* " + appData.size +
+      "\n";
+
+    const apkFileName = (appData?.["name"] || "Downloader") + ".apk";
+    const filePath = apkFileName;
+
+    const response = await axios.get(downloadLink, { 'responseType': "stream" });
+    const fileWriter = fs.createWriteStream(filePath);
+    response.data.pipe(fileWriter);
+
+    await new Promise((resolve, reject) => {
+      fileWriter.on('finish', resolve);
+      fileWriter.on("error", reject);
+    });
+
+    const documentMessage = {
+      'document': fs.readFileSync(filePath),
+      'mimetype': 'application/vnd.android.package-archive',
+      'fileName': apkFileName
+    };
+
+    // Utilisation d'une seule méthode sendMessage pour envoyer l'image et le document
+    zk.sendMessage(dest, { image: { url: appData.icon }, caption: captionText }, { quoted: ms });
+    zk.sendMessage(dest, documentMessage, { quoted: ms });
+
+    // Supprimer le fichier après envoi
+    fs.unlinkSync(filePath);
+  } catch (error) {
+    console.error('Erreur lors du traitement de la commande apk:', error);
+    repondre("*Error during apk command processing*");
+  }
+});
+
+
+
+
+
+/*******************************  automute && autoummute ***************************/
+
+const cron = require(`../bdd/cron`) ;
+
+
+zokou({
+      nomCom : 'automute',
+      categorie : 'Group'
+  } , async (dest,zk,commandeOptions) => {
+
+      const {arg , repondre , verifAdmin } = commandeOptions ;
+
+      if (!verifAdmin) { repondre('You are not an administrator of the group') ; return}
+
+      group_cron = await cron.getCronById(dest) ;
+      
+     
+
+      if (!arg || arg.length == 0) {
+
+        let state ;
+        if (group_cron == null || group_cron.mute_at == null) {
+  
+            state =  "No time set for automatic mute"
+        } else {
+  
+          state =  `The group will be muted at ${(group_cron.mute_at).split(':')[0]} ${(group_cron.mute_at).split(':')[1]}`
+        }
+  
+        let msg = `* *State:* ${state}
+        * *Instructions:* To activate automatic mute, add the minute and hour after the command separated by ':'
+        Example automute 9:30
+        * To delete the automatic mute, use the command *automute del*`
+        
+
+          repondre(msg) ;
+          return ;
+      } else {
+
+        let texte = arg.join(' ')
+
+        if (texte.toLowerCase() === `del` ) { 
+
+          if (group_cron == null) {
+
+              repondre('No cronometrage is active') ;
+          } else {
+
+              await cron.delCron(dest) ;
+
+              repondre("The automatic mute has been removed; restart to apply changes") 
+              .then(() => {
+
+                exec("pm2 restart all");
+              }) ;
+          }
+        } else if (texte.includes(':')) {
+
+          //let { hr , min } = texte.split(':') ;
+
+          await cron.addCron(dest,"mute_at",texte) ;
+
+          repondre(`Setting up automatic mute for ${texte} ; restart to apply changes`) 
+          .then(() => {
+
+            exec("pm2 restart all");
+          }) ;
+
+        } else {
+            repondre('Please enter a valid time with hour and minute separated by :') ;
+        }
+
+
+      }
+  });
+
+
+  zokou({
+    nomCom : 'autounmute',
+    categorie : 'Group'
+} , async (dest,zk,commandeOptions) => {
+
+    const {arg , repondre , verifAdmin } = commandeOptions ;
+
+    if (!verifAdmin) { repondre('You are not an administrator of the group') ; return}
+
+    group_cron = await cron.getCronById(dest) ;
+    
+   
+
+    if (!arg || arg.length == 0) {
+
+      let state ;
+      if (group_cron == null || group_cron.unmute_at == null) {
+
+          state = "No time set for autounmute" ;
+
+      } else {
+
+        state = `The group will be un-muted at ${(group_cron.unmute_at).split(':')[0]}H ${(group_cron.unmute_at).split(':')[1]}`
+      }
+
+      let msg = `* *State:* ${state}
+      * *Instructions:* To activate autounmute, add the minute and hour after the command separated by ':'
+      Example autounmute 7:30
+      * To delete autounmute, use the command *autounmute del*`
+
+        repondre(msg) ;
+        return ;
+
+    } else {
+
+      let texte = arg.join(' ')
+
+      if (texte.toLowerCase() === `del` ) { 
+
+        if (group_cron == null) {
+
+            repondre('No cronometrage has been activated') ;
+        } else {
+
+            await cron.delCron(dest) ;
+
+            repondre("The autounmute has been removed; restart to apply the changes")
+            .then(() => {
+
+              exec("pm2 restart all");
+            }) ;
+
+            
+
+        }
+      } else if (texte.includes(':')) {
+
+       
+
+        await cron.addCron(dest,"unmute_at",texte) ;
+
+        repondre(`Setting up autounmute for ${texte}; restart to apply the changes`)
+        .then(() => {
+
+          exec("pm2 restart all");
+        }) ;
+
+      } else {
+          repondre('Please enter a valid time with hour and minute separated by :') ;
+      }
+
+
+    }
+});
+
+
+
+zokou({
+  nomCom : 'fkick',
+  categorie : 'Group'
+} , async (dest,zk,commandeOptions) => {
+
+  const {arg , repondre , verifAdmin , superUser , verifZokouAdmin } = commandeOptions ;
+
+  if (verifAdmin || superUser) {
+
+    if(!verifZokouAdmin){ repondre('You need administrative rights to perform this command') ; return ;}
+
+    if (!arg || arg.length == 0) { repondre('Please enter the country code whose members will be removed') ; return ;}
+
+      let metadata = await zk.groupMetadata(dest) ;
+
+      let participants = metadata.participants ;
+
+      for (let i = 0 ; i < participants.length ; i++) {
+
+          if (participants[i].id.startsWith(arg[0]) && participants[i].admin === null ) {
+
+             await zk.groupParticipantsUpdate(dest, [participants[i].id], "remove") ;
+          }
+      }
+
+  } else {
+    repondre('Sorry, you are not an administrator of the group')
+  }
+
+
+}) ;
+
+
+zokou({
+      nomCom : 'nsfw',
+      categorie : 'Group'
+}, async (dest,zk,commandeOptions) => {
+  
+    const {arg , repondre , verifAdmin } = commandeOptions ;
+
+  if(!verifAdmin) { repondre('Sorry, you cannot enable NSFW content without being an administrator of the group') ; return}
+
+      let hbd = require('../bdd/hentai') ;
+
+    let isHentaiGroupe = await hbd.checkFromHentaiList(dest) ;
+
+  if (arg[0] == 'on') {
+    
+       if(isHentaiGroupe) {repondre('NSFW content is already active for this group') ; return} ;
+
+      await hbd.addToHentaiList(dest) ;
+
+      repondre('NSFW content is now active for this group') ;
+       
+  } else if (arg[0] == 'off') {
+
+     if(!isHentaiGroupe) {repondre('NSFW content is already disabled for this group') ; return} ;
+
+      await hbd.removeFromHentaiList(dest) ;
+
+      repondre('NSFW content is now disabled for this group') ;
+  } else {
+
+      repondre('You must enter "on" or "off"') ;
+    }
+} ) ;
