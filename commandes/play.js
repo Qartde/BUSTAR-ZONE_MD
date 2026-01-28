@@ -1,93 +1,93 @@
-
 const { zokou } = require("../framework/zokou");
 const axios = require('axios');
 const ytSearch = require('yt-search');
 
-// Define the command with aliases
+// Command for downloading audio (MP3)
 zokou({
   nomCom: "play",
-  aliases: ["music", "ytmp3", "audio", "mp3"],
+  aliases: ["song", "audio", "mp3"],
   categorie: "Search",
-  reaction: "🎙️"
+  reaction: "🎵"
 }, async (dest, zk, commandOptions) => {
   const { arg, ms, repondre } = commandOptions;
 
-  // Check if a query is provided
   if (!arg[0]) {
-    return repondre("Please provide a audio name.");
+    return repondre("Please provide a video name.");
   }
 
   const query = arg.join(" ");
 
   try {
-    // Perform a YouTube search based on the query
+    // Perform a YouTube search
     const searchResults = await ytSearch(query);
-
-    // Check if any videos were found
-    if (!searchResults || !searchResults.videos.length) {
-      return repondre('No audio found for the specified query.');
+    if (!searchResults || searchResults.videos.length === 0) {
+      return repondre('No video found for the specified query.');
     }
 
     const firstVideo = searchResults.videos[0];
     const videoUrl = firstVideo.url;
 
-    // Function to get download data from APIs
-    const getDownloadData = async (url) => {
-      try {
-        const response = await axios.get(url);
-        return response.data;
-      } catch (error) {
-        console.error('Error fetching data from API:', error);
-        return { success: false };
-      }
-    };
-
-    // List of APIs to try
-    const apis = [
-      const apiUrl = `https://apiziaul.vercel.app/api/downloader/ytplaymp3?query=${encodeURIComponent(query)}`;
-      `https://api-rin-tohsaka.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
-      `https://api.davidcyriltech.my.id/download/ytmp3?url=${encodeURIComponent(videoUrl)}`,
-      `https://www.dark-yasiya-api.site/download/ytmp3?url=${encodeURIComponent(videoUrl)}`,
-      `https://api.giftedtech.web.id/api/download/dlmp3?url=${encodeURIComponent(videoUrl)}&apikey=rahmani-md`,
-      `https://api.dreaded.site/api/ytdl/audio?url=${encodeURIComponent(videoUrl)}`
-    ];
-
-    let downloadData;
-    for (const api of apis) {
-      downloadData = await getDownloadData(api);
-      if (downloadData && downloadData.success) break;
-    }
-
-    // Check if a valid download URL was found
-    if (!downloadData || !downloadData.success) {
-      return repondre('Failed to retrieve download URL from all sources. Please try again later.');
-    }
-
-    const downloadUrl = downloadData.result.download_url;
-    const videoDetails = downloadData.result;
-
-    // Prepare the message payload with external ad details
-    const messagePayload = {
-      audio: { url: downloadUrl },
-      mimetype: 'audio/mp4',
+    // Notify the user
+    await zk.sendMessage(dest, {
+      text: `*BUSTARZONE MD is downloading ${firstVideo.title}*`,
       contextInfo: {
         externalAdReply: {
-          title: videoDetails.title,
-          body: videoDetails.title,
+          title: firstVideo.title,
+          body: "BUSTARZONE MD downloader",
           mediaType: 1,
-          sourceUrl: 'https://whatsapp.com/channel/0029Vb7HhcI2ZjCj6clT5D1x',
           thumbnailUrl: firstVideo.thumbnail,
+          sourceUrl: videoUrl,
           renderLargerThumbnail: false,
           showAdAttribution: true,
         },
       },
-    };
+    }, { quoted: ms });
 
-    // Send the download link to the user
-    await zk.sendMessage(dest, messagePayload, { quoted: ms });
+    let downloadUrl = null;
+
+            // Using your requested API with the song name from query
+        const apiUrl = `https://apiziaul.vercel.app/api/downloader/ytplaymp3?query=${encodeURIComponent(query)}`;
+
+      if (response.data && response.data.success) {
+        const { id } = response.data;
+
+        // Check progress
+        while (true) {
+          let progress = await axios.get(`https://p.oceansaver.in/ajax/progress.php?id=${id}`, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+
+          if (progress.data && progress.data.success && progress.data.progress === 1000) {
+            downloadUrl = progress.data.download_url;
+            break;
+          }
+          await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds before checking again
+        }
+      } else {
+        throw new Error("Primary API failed.");
+      }
+    } catch (error) {
+      console.error("API Error:", error.message);
+      return repondre('Failed to retrieve download URL.');
+    }
+
+    // Send the downloaded audio
+    await zk.sendMessage(dest, {
+      audio: { url: downloadUrl },
+      mimetype: 'audio/mp4',
+      contextInfo: {
+        externalAdReply: {
+          title: firstVideo.title,
+          body: `🎶 ${firstVideo.title} | Download complete`,
+          mediaType: 1,
+          sourceUrl: videoUrl,
+          thumbnailUrl: firstVideo.thumbnail,
+          renderLargerThumbnail: true,
+          showAdAttribution: true,
+        },
+      },
+    }, { quoted: ms });
 
   } catch (error) {
-    console.error('Error during download process:', error);
-    return repondre(`Download failed due to an error: ${error.message || error}`);
+    console.error('Error:', error.message);
+    return repondre(`Download failed due to an API error: ${error.message || error}`);
   }
 });
